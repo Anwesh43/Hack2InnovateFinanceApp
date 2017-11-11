@@ -13,6 +13,7 @@ import present.hack2innovate.demo.hack2innovatedemoapp.R;
 import present.hack2innovate.demo.hack2innovatedemoapp.dao.UserDao;
 import present.hack2innovate.demo.hack2innovatedemoapp.models.User;
 import present.hack2innovate.demo.hack2innovatedemoapp.service.UserService;
+import present.hack2innovate.demo.hack2innovatedemoapp.utils.RetrofitSingleton;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -24,9 +25,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 
 public class UserPresenter {
-    private Activity activity;
+    private MainActivity activity;
     private UserDao userDao;
-    private Retrofit retrofit;
     private UserService userService;
     private TextView textView;
     public UserPresenter(MainActivity activity) {
@@ -34,7 +34,7 @@ public class UserPresenter {
         Realm.init(activity);
         Realm realm = Realm.getDefaultInstance();
         userDao = new UserDao(realm);
-        retrofit = new Retrofit.Builder().baseUrl("http://172.16.14.245:8000/").addConverterFactory(GsonConverterFactory.create()).build();
+        Retrofit retrofit = RetrofitSingleton.getInstance();
         textView = (TextView)activity.findViewById(R.id.users);
         userService = retrofit.create(UserService.class);
     }
