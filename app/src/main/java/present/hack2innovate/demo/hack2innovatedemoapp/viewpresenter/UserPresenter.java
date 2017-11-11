@@ -13,6 +13,7 @@ import present.hack2innovate.demo.hack2innovatedemoapp.R;
 import present.hack2innovate.demo.hack2innovatedemoapp.dao.UserDao;
 import present.hack2innovate.demo.hack2innovatedemoapp.models.User;
 import present.hack2innovate.demo.hack2innovatedemoapp.service.UserService;
+import present.hack2innovate.demo.hack2innovatedemoapp.utils.RealmSingleton;
 import present.hack2innovate.demo.hack2innovatedemoapp.utils.RetrofitSingleton;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -31,8 +32,7 @@ public class UserPresenter {
     private TextView textView;
     public UserPresenter(MainActivity activity) {
         this.activity = activity;
-        Realm.init(activity);
-        Realm realm = Realm.getDefaultInstance();
+        Realm realm = RealmSingleton.getInstance();
         userDao = new UserDao(realm);
         Retrofit retrofit = RetrofitSingleton.getInstance();
         textView = (TextView)activity.findViewById(R.id.users);

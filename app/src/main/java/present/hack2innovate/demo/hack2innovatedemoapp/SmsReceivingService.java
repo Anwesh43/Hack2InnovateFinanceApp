@@ -9,9 +9,12 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
+import io.realm.Realm;
+import present.hack2innovate.demo.hack2innovatedemoapp.dao.SmsResponseDao;
 import present.hack2innovate.demo.hack2innovatedemoapp.models.SmsRequest;
 import present.hack2innovate.demo.hack2innovatedemoapp.models.SmsResponse;
 import present.hack2innovate.demo.hack2innovatedemoapp.service.SmsServiceApi;
+import present.hack2innovate.demo.hack2innovatedemoapp.utils.RealmSingleton;
 import present.hack2innovate.demo.hack2innovatedemoapp.utils.RetrofitSingleton;
 import present.hack2innovate.demo.hack2innovatedemoapp.utils.SmsReceiverUtil;
 import retrofit2.Call;
@@ -33,10 +36,13 @@ public class SmsReceivingService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         return START_STICKY;
     }
+    private SmsResponseDao smsResponseDao;
     public void onCreate() {
         final Context context =  getApplicationContext();
         Retrofit retrofit = RetrofitSingleton.getInstance();
         final SmsServiceApi smsServiceApi = retrofit.create(SmsServiceApi.class);
+        Realm realm = RealmSingleton.getInstance();
+        smsResponseDao = new SmsResponseDao(realm);
         SmsReceiverUtil.init(context, new SmsReceiverUtil.OnReceiveSmsListener() {
             @Override
             public void onReceiveSms(String message, String sender, String time) {
@@ -44,6 +50,7 @@ public class SmsReceivingService extends Service {
                     @Override
                     public void onResponse(Call<SmsResponse> call, Response<SmsResponse> response) {
                         Log.d("success",response.body().toString());
+                        smsResponseDao.create(response.body());
                     }
 
                     @Override

@@ -8,6 +8,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import present.hack2innovate.demo.hack2innovatedemoapp.utils.RealmSingleton;
 import present.hack2innovate.demo.hack2innovatedemoapp.viewpresenter.UserPresenter;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -18,6 +19,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        RealmSingleton.init(this);
         UserPresenter userPresenter = new UserPresenter(this);
         userPresenter.fetchAndSaveUser();
         if(ContextCompat.checkSelfPermission(this, Manifest.permission.READ_SMS) != PackageManager.PERMISSION_GRANTED) {
