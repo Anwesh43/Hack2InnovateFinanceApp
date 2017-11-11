@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 
 import java.text.DecimalFormat;
@@ -57,11 +58,12 @@ public class CardsView extends View{
     public void onDraw(Canvas canvas) {
         canvas.drawColor(Color.parseColor("#E0E0E0"));
         if(detailsCard.size()>0) {
-            float size = 3*canvas.getHeight()/(4*detailsCard.size()+1);
-            float y = size/3;
+            float size = Math.min(canvas.getWidth()/2,5*canvas.getHeight()/(6*detailsCard.size()+1));
+            float y = size/5;
             for (DetailsCard detailCard : detailsCard) {
                 detailCard.draw(canvas, paint, canvas.getWidth()/2-size/2, y,size,size);
-                y+= size+size/3;
+                y+= size+size/5;
+                Log.d("y",""+y);
             }
         }
     }
@@ -75,17 +77,20 @@ public class CardsView extends View{
             this.currency_type = currency_type;
         }
         public void draw(Canvas canvas,Paint paint,float x,float y,float w,float h) {
+            canvas.save();
             android.graphics.Path path = new android.graphics.Path();
             path.addRoundRect(new RectF(x,y,x+w,y+h),Math.max(w,h)/10,Math.max(w,h)/10, android.graphics.Path.Direction.CW);
             canvas.clipPath(path);
-            paint.setColor(Color.parseColor("#1DE9B6"));
+            paint.setColor(Color.parseColor("#00838F"));
             canvas.drawRect(new RectF(x,y,x+w,y+h/2),paint);
-            paint.setTextSize(Math.min(w,h)/15);
+            paint.setTextSize(Math.min(w,h)/9);
             paint.setColor(Color.WHITE);
             canvas.drawText(text,x+w/2-paint.measureText(text)/2,y+h/4,paint);
             canvas.drawRect(new RectF(x,y+h/2,x+w,y+h),paint);
             paint.setColor(Color.BLACK);
-            canvas.drawText(""+AppConstants.currencyMap.get(currency_type)+price,x+w/2-paint.measureText(text)/2,y+3*h/4,paint);
+            String amountText = ""+AppConstants.currencyMap.get(currency_type)+price;
+            canvas.drawText(amountText,x+w/2-paint.measureText(amountText)/2,y+3*h/4,paint);
+            canvas.restore();
         }
         public int hashCode() {
             return text.hashCode()+(int)price;

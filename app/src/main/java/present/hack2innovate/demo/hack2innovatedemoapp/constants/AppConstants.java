@@ -12,4 +12,5 @@ public class AppConstants {
         put("DOLLAR",'$');
         put("POUND",'\u00A3');
     }};
+    public static final String colorCodes[] = {"#FF7043","#673AB7","#f44336","#00BCD4","#304FFE","#DD2C00","#4CAF50"};
 }

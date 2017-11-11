@@ -4,6 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import io.realm.Realm;
+import io.realm.RealmQuery;
 import io.realm.RealmResults;
 import present.hack2innovate.demo.hack2innovatedemoapp.models.SmsResponse;
 
@@ -30,5 +31,15 @@ public class SmsResponseDao implements BaseDao<SmsResponse>{
         realm.beginTransaction();
         realm.insert(smsResponse);
         realm.commitTransaction();
+    }
+    public RealmQuery<SmsResponse> getPersonalAccount(boolean personalAccount) {
+        List<SmsResponse> responses = new LinkedList<>();
+        realm.beginTransaction();
+        RealmQuery<SmsResponse> queries = realm.where(SmsResponse.class).equalTo("personal_account",personalAccount);
+        return queries;
+    }
+    public List<SmsResponse> getPersonalAccountTypes(boolean personalAccount) {
+        RealmResults<SmsResponse> responses = getPersonalAccount(personalAccount).findAllSorted("type");
+        return responses;
     }
 }
