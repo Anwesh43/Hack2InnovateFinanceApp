@@ -78,7 +78,7 @@ public class PieChartView extends View {
         public void draw(Canvas canvas, Paint paint) {
             int i = 0;
             float w = canvas.getWidth(),h = canvas.getHeight();
-            float x = w/2,y = h/3,r = w/4,deg = 0,rx = w/10,ry = h/2+w/4,gap = h/2-3*w/4;
+            float x = w/2,y = h/3,r = w/4,deg = 0,rx = w/10,ry = h/3+w/4+w/20,gap = h/2-3*w/4;
             for(PieChartValue pieChartValue:pieChartValues) {
                 paint.setColor(Color.parseColor(AppConstants.colorCodes[i]));
                 float sweepDeg = 360*(pieChartValue.value/sum);

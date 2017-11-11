@@ -44,6 +44,7 @@ public class BottomMenuView extends View{
             int index = 0;
             for(BottomMenu bottomMenu:bottomMenus) {
                 if(i == index) {
+                    index++;
                     continue;
                 }
                 if(bottomMenu.handleTap(event.getX(),event.getY())) {
@@ -72,8 +73,16 @@ public class BottomMenuView extends View{
         }
         public void draw(Canvas canvas, Paint paint,int color) {
             paint.setColor(color);
-            paint.setTextSize(h/2);
-            canvas.drawText(text,x-paint.measureText(text)/2,y,paint);
+            float scale = 1;
+            if(color == Color.WHITE) {
+                scale = 1.5f;
+            }
+            paint.setTextSize(h/5);
+            canvas.save();
+            canvas.translate(x,y);
+            canvas.scale(scale,scale);
+            canvas.drawText(text,-paint.measureText(text)/2,paint.getTextSize()/2,paint);
+            canvas.restore();
         }
         public boolean handleTap(float x,float y) {
             return x>=this.x-w/2 && x<=this.x+w/2 && y>=this.y - h/2 && y<=this.y+h/2;
