@@ -34,7 +34,6 @@ public class SmsResponseDao implements BaseDao<SmsResponse>{
     }
     public RealmQuery<SmsResponse> getPersonalAccount(boolean personalAccount) {
         List<SmsResponse> responses = new LinkedList<>();
-        realm.beginTransaction();
         RealmQuery<SmsResponse> queries = realm.where(SmsResponse.class).equalTo("personal_account",personalAccount);
         return queries;
     }

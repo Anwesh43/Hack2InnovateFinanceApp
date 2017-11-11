@@ -35,7 +35,7 @@ public class UserPresenter {
         Realm realm = RealmSingleton.getInstance();
         userDao = new UserDao(realm);
         Retrofit retrofit = RetrofitSingleton.getInstance();
-        textView = (TextView)activity.findViewById(R.id.users);
+        textView = new TextView(activity);
         userService = retrofit.create(UserService.class);
     }
     private void displayUsers(List<User> users) {
